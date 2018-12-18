@@ -1,270 +1,313 @@
 # Bash Scripting
 
 
-### touch myBash.sh
-Create a bash file
+`touch myBash.sh`
+### Create a bash file
 
-### chmod +x <myBash.sh>
-Will make the bash file executable
+`chmod +x <myBash.sh>`
+### Will make the bash file executable
 
-### #!/bin/bash
-File starts with #!/bin/bash
+`#!/bin/bash`
+### File starts with #!/bin/bash
 
 
-### mkdir <fileName>{0..100}
-This will create one hundred files named <fileName>0 … <fileName>999
+`mkdir <fileName>{0..100}`
+### This will create one hundred files named <fileName>0 … <fileName>999
 
-\ is a scape character
+`\` is a scape character
 
-Variables format:
-### a=Hello
-### b=”Hello Sam”
-### c=32
+### Variables format:
+```
+a=Hello
+b=”Hello Sam”
+c=32
+```
 
-Calling a variable:
-### echo $a
-### echo ”$a, I am $c years old.”
+### Calling a variable:
+```
+echo $a
+echo ”$a, I am $c years old.”
+```
 
-Adding attribute to variable:
-### declare -i age=32
+### Adding attribute to variable:
+`declare -i age=32`
+```
 #A read only variable:
-### declare -r name=Sam
+declare -r name=Sam
 #make it lower case:
-### declare -l lower=”Lower”
+declare -l lower=”Lower”
 #make it upper case:
-### declare -u upper=”upper”
+declare -u upper=”upper”
+```
+## Build-in variables:
+`$HOME`
+### Returns users home directory
 
-Build-in variables:
-### $HOME
-Returns users home directory
+`$PWD`
+### Returns current directory
 
-### $PWD
-Returns current directory
+`$MACHTYPE`
+### Returns the machines type
 
-### $MACHTYPE
-Returns the machines type
+`$HOSTNAME`
+### Returns system name
 
-### $HOSTNAME
-Returns system name
+`$BASH_VERSION`
+### Returns the version of bash
 
-### $BASH_VERSION
-Returns the version of bash
+`$SECONDS`
+### Returns the number of seconds the bash session run
 
-### $SECONDS
-Returns the number of seconds the bash session run
+`$0`
+### Returns name of the script
 
-### $0
-Returns name of the script
-
-Command substitution
+### Command substitution
+```
 #Getting the path to the current directory and assign it to a variable:
-### workingDir=$(pwd)
-
-Arithmetic Operations:
-### sum=$((age*2+10))
+workingDir=$(pwd)
+```
+### Arithmetic Operations:
+`sum=$((age*2+10))`
 ￼
-Comparison operations:
+### Comparison operations:
+```
 #Returns 1 for false and 0 for true
-### [[ ”cat” == ”dog” ]]
-### echo $?
+[[ ”cat” == ”dog” ]]
+echo $?
 #Returns 1 for false and 0 for true
-### [[ 32 -eq 32 ]]
-### echo $?
+[[ 32 -eq 32 ]]
+echo $?
+```
 
-
-Working with Strings
+### Working with Strings
+```
 #check number of chars is a string
-### echo ${#name}
-
+echo ${#name}
 #Manipulating just a part of a text
-### text="helloworldthisisme"
-### world=${text:5:5}
-### me=${text: -2}
-### this=${text: -8:4}
-### echo "world: $world, this: $this, me: $me"
+text="helloworldthisisme"
+world=${text:5:5}
+me=${text: -2}
+this=${text: -8:4}
+echo "world: $world, this: $this, me: $me"
 
 #Changing a part of string with something else:
-### myList=”apple banana banana cherry”
-### echo ${myList/banana/durian}
+myList=”apple banana banana cherry”
+echo ${myList/banana/durian}
 #For changing all the bananas, we use // instead of one /
-### echo ${myList//banana/durian}
-### echo ${myList/b*a/orange}
+echo ${myList//banana/durian}
+echo ${myList/b*a/orange}
+```
 
-
-Printf
-### printf "Name:\t%s\nID:\t%04d\n" "Sam" "21"
-
-### today=$(date +"%d-%m-%Y")
-### time=$(date +"%H:%M:%S")
--v will assign the value of printf to the variable <toPrint>
-### printf -v toPrint "Current User:\t%s\nDate:\t\t%s @ %s\n" $USER $today $time
-### echo "$toPrint"
-
+### Printf
+`printf "Name:\t%s\nID:\t%04d\n" "Sam" "21"`
+### Date and Time
+```
+today=$(date +"%d-%m-%Y")
+time=$(date +"%H:%M:%S")
+#-v will assign the value of printf to the variable <toPrint>
+printf -v toPrint "Current User:\t%s\nDate:\t\t%s @ %s\n" $USER $today $time
+echo "$toPrint"
+```
+### Array / List / Dictionary
+```
 #empty array
-### myArray=()
-### myOtherArray=("hi" "hey" "hello")
-### myArray[0]="hallå"
-### echo ${myOtherArray[2]}
+myArray=()
+myOtherArray=("hi" "hey" "hello")
+myArray[0]="hallå"
+echo ${myOtherArray[2]}
 #print all the elements in the array
-### echo ${myOtherArray[@]}
+echo ${myOtherArray[@]}
 #bash version 4 (Doesn't work with version 3)
-### declare -A myDict
-### myDict[color]="light blue"
-### myDict["the object"]=table
-### echo ${myDict["the object"]} is ${myDict[color]}
+declare -A myDict
+myDict[color]="light blue"
+myDict["the object"]=table
+echo ${myDict["the object"]} is ${myDict[color]}
+```
 
+### Print to a file
+```
 #greater than operator by itself to zero out a file, getting rid of anything that's inside it
-### > test.txt
-### cat test.txt
+> test.txt
+cat test.txt
 #write into a file. This command will create the file if it not existl.
-### echo "First line of text" > test.txt
-### cat test.txt
+echo "First line of text" > test.txt
+cat test.txt
 #append a text at the end of the file
-### echo "Second line of text" >> test.txt
-### cat test.txt
+echo "Second line of text" >> test.txt
+cat test.txt
 #reading a file line by line with while loop
-### count=1
-### while read file; do
-###     echo "$count - $file"
-###     ((count++))
-### done < test.txt
-#multiline text line
-### cat <<- EndOfText
-###         This is
-###         a multiline
-###         string.
-###         ...
-### EndOfText
+count=1
+```
 
-#creating a log file and appending some info at the end of it
-### freespace=$(df -h / | grep -E "\/$" | awk '{print $4}')
-### logdate=$(date +"%d%m%Y")
-### logfile="$logdate"_report.log
-### echo "Quick system report for $HOSTNAME"
-### printf "\tSystem type:\t%s\n" $MACHTYPE
-### printf "\tBash Version:\t%s\n" $BASH_VERSION
-### printf "\tFree space:\t%s\n" $freespace
-### printf "\tFiles in dir:\t%s\n" $(ls |wc -l)
-### printf "\tGenerated on:\t%s\n" $(date +"%d/%m/%Y")
-### echo "A summery of this info has been saved to $logfile"
-### cat << EndOfText > $logfile
-###     This report was automatically generated by Bash script.
-###     It contains a brief summary of some system information.
-### EndOfText
-### echo "Quick system report for $HOSTNAME"
-### printf "\tSystem type:\t%s\n" $MACHTYPE >> $logfile
-### printf "\tBash Version:\t%s\n" $BASH_VERSION >> $logfile
-### printf "\tFree space:\t%s\n" $freespace >> $logfile
-### printf "\tFiles in dir:\t%s\n" $(ls |wc -l) >> $logfile
-### printf "\tGenerated on:\t%s\n" $logdate >> $logfile
+### While Loop
+```
+while read file; do
+     echo "$count - $file"
+     ((count++))
+done < test.txt
+```
 
-#If statement
-### if [ $age -eq 32 ];then
-###     echo "age: $age"
-### elif [ ]$age -le 32 ];then
-###     echo "You are younger than $age"
-### else
-###     echo "You are older than $age"
-### fi
+### Multiline text line
+```
+ cat <<- EndOfText
+         This is
+         a multiline
+         string.
+         ...
+ EndOfText
+```
 
-#While loop
-### index=0
-### while [[ index -le 10 ]]; do
-###     echo i:$index
-###     ((index++))
-### done
+### Creating a log file and appending some info at the end of it
+```
+ freespace=$(df -h / | grep -E "\/$" | awk '{print $4}')
+ logdate=$(date +"%d%m%Y")
+ logfile="$logdate"_report.log
+ echo "Quick system report for $HOSTNAME"
+ printf "\tSystem type:\t%s\n" $MACHTYPE
+ printf "\tBash Version:\t%s\n" $BASH_VERSION
+ printf "\tFree space:\t%s\n" $freespace
+ printf "\tFiles in dir:\t%s\n" $(ls |wc -l)
+ printf "\tGenerated on:\t%s\n" $(date +"%d/%m/%Y")
+ echo "A summery of this info has been saved to $logfile"
+ cat << EndOfText > $logfile
+     This report was automatically generated by Bash script.
+     It contains a brief summary of some system information.
+ EndOfText
+ echo "Quick system report for $HOSTNAME"
+ printf "\tSystem type:\t%s\n" $MACHTYPE >> $logfile
+ printf "\tBash Version:\t%s\n" $BASH_VERSION >> $logfile
+ printf "\tFree space:\t%s\n" $freespace >> $logfile
+ printf "\tFiles in dir:\t%s\n" $(ls |wc -l) >> $logfile
+ printf "\tGenerated on:\t%s\n" $logdate >> $logfile
+```
+
+### If statement
+```
+ if [ $age -eq 32 ];then
+     echo "age: $age"
+ elif [ ]$age -le 32 ];then
+     echo "You are younger than $age"
+ else
+     echo "You are older than $age"
+ fi
+```
+
+### Looping
+```
+ #while loop
+ index=0
+ while [[ index -le 10 ]]; do
+     echo i:$index
+     ((index++))
+ done
 
 #For loop
-### for i in 1 2 3 4 5;do
-###     echo $i
-### done
-### for i in {10..0};do #range
-###     echo $i
-### done
-### for (( i=0; i<10; i++ ));do #Java style
-###     echo $i
-### done
+ for i in 1 2 3 4 5;do
+     echo $i
+ done
+ for i in {10..0};do #range
+     echo $i
+ done
+ for (( i=0; i<10; i++ ));do #Java style
+     echo $i
+ done
+ 
 #Loop through an array
-### arr=("Hej" "Hallo" "Hola")
-### for i in ${arr[@]};do
-### echo $i
-### done
-### for i in $(ls);do
-###     echo $i
-### done
+ arr=("Hej" "Hallo" "Hola")
+ for i in ${arr[@]};do
+ echo $i
+ done
+ for i in $(ls);do
+     echo $i
+ done
+```
 
-#Case statement
-### var="dog"
-### case $var in
-###     cat) echo "It is a cat";;
-###     dog|puppy) echo "It is a dog or a puppy";;
-###     *) echo "Not matched!";;
-### esac
+### Case statement
+```
+ var="dog"
+ case $var in
+     cat) echo "It is a cat";;
+     dog|puppy) echo "It is a dog or a puppy";;
+     *) echo "Not matched!";;
+ esac
+```
 
-#Functions
-### function greetings {
-###     echo "Hello $1, greetings from $2"
-### }
-### greetings Sam yourself
-### greetings visitor Sam
-### function numberthings {
-###     index=1
-###     for file in $@; do # $@ means all the arrgs
-###     echo $index: $file
-###         ((index++))
-###     done
-### }
-### numberthings $(ls)
-### numberthings blue black red pink
+### Functions
+```
+ function greetings {
+     echo "Hello $1, greetings from $2"
+ }
+ greetings Sam yourself
+ greetings visitor Sam
+ function numberthings {
+     index=1
+     for file in $@; do # $@ means all the arrgs
+     echo $index: $file
+         ((index++))
+     done
+ }
+ numberthings $(ls)
+ numberthings blue black red pink
+```
 
-#Arguments
-### echo $@ #this will print all the args which user types after the running function
-### for args in $@;do
-###     echo $args
-### done
-### echo "There was $# args" # $# Returns the number of args
+### Arguments
+```
+ echo $@ #this will print all the args which user types after the running function
+ for args in $@;do
+     echo $args
+ done
+ echo "There was $# args" # $# Returns the number of args
+```
 
-#Flags
-### while getopts :u:p: option;do
-###     case $option in
-###         u) user=$OPTARG;;
-###         p) pass=$OPTARG;;
-###         ?) echo "Unkonwn flag";;
-###     esac
-### done
-### echo "User: $user | Pass: $pass"
+### Flags
+```
+ while getopts :u:p: option;do
+     case $option in
+         u) user=$OPTARG;;
+         p) pass=$OPTARG;;
+         ?) echo "Unkonwn flag";;
+     esac
+ done
+ echo "User: $user | Pass: $pass"
+```
 
-#Getting input from user
-### echo "What is your name?"
-### read name
-### echo "What is your password?"
-### read -s pass # -s means, silent; it doesnt show the password
-### read -p "What is your favorit animal? " animal #One line Q A
-### echo "Welcome $name! Oh I like your choice of animal! I think $animal are so cool!"
+### Getting input from user
+```
+ echo "What is your name?"
+ read name
+ echo "What is your password?"
+ read -s pass # -s means, silent; it doesnt show the password
+ read -p "What is your favorit animal? " animal #One line Q A
+ echo "Welcome $name! Oh I like your choice of animal! I think $animal are so cool!"
+```
 
-#Select input
-### select car in "Volvo" "BMW";do
-###     echo "You selected $car"
-###     break
-### done
-### select option in "car" "house" "job" "quit";do
-###     case $option in
-###         car) echo "Cars are good for going aroung";;
-###         house) echo "Having a house is a dream for so many...";;
-###         job) echo "Working in a good environment is important";;
-###         quit) break;;
-###         *) echo "Don't have any opinion about this";;
-###     esac
-### done
+### Select input
+```
+ select car in "Volvo" "BMW";do
+     echo "You selected $car"
+     break
+ done
+ select option in "car" "house" "job" "quit";do
+     case $option in
+         car) echo "Cars are good for going aroung";;
+         house) echo "Having a house is a dream for so many...";;
+         job) echo "Working in a good environment is important";;
+         quit) break;;
+         *) echo "Don't have any opinion about this";;
+     esac
+ done
+```
 
-#Valudation of inputs
-### if [ $# -lt 3 ];then
-###     cat <<- EOM
-###     This command requires three arguments:
-###     UserName, userId, and fav animal.
-###     EOM
-### else
-###     echo "Username: $1"
-###     echo "UserId: $2"
-###     echo "Fav Animal: $3"
-### fi
+### Valudation of inputs
+```
+ if [ $# -lt 3 ];then
+     cat <<- EOM
+     This command requires three arguments:
+     UserName, userId, and fav animal.
+     EOM
+ else
+     echo "Username: $1"
+     echo "UserId: $2"
+     echo "Fav Animal: $3"
+ fi
+```
